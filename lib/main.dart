@@ -4,6 +4,7 @@
 import 'package:balaji_textiles/pages/loginPage.dart';
 // ignore: unused_import
 import 'package:balaji_textiles/pages/registerPage.dart';
+import 'package:balaji_textiles/pages/splashScreen.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -25,7 +26,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const registerPage(), 
+      home: const splashScreenPage(),   
     );
   }
-}
+} 

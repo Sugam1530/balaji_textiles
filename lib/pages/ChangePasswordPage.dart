@@ -1,23 +1,23 @@
-// ignore_for_file: camel_case_types, file_names, prefer_typing_uninitialized_variables, non_constant_identifier_names
+// ignore_for_file: camel_case_types, prefer_typing_uninitialized_variables, non_constant_identifier_names, file_names
 
-import 'package:balaji_textiles/pages/ChangePasswordPage.dart';
+import 'package:balaji_textiles/pages/loginPage.dart';
 import 'package:balaji_textiles/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
-class confirmForgetPassword extends StatefulWidget {
-  const confirmForgetPassword({super.key});
+class changePasswordPage extends StatefulWidget {
+  const changePasswordPage({super.key});
 
   @override
-  State<confirmForgetPassword> createState() => _confirmForgetPasswordState();
+  State<changePasswordPage> createState() => _changePasswordPageState();
 }
 
-class _confirmForgetPasswordState extends State<confirmForgetPassword> {
+class _changePasswordPageState extends State<changePasswordPage> {
   var message;
   final Email = TextEditingController();
-  final OTP = TextEditingController();
+  final Password = TextEditingController();
+  final ConfirmPassword = TextEditingController();
 
   showLoaderDialog(BuildContext context) {
     AlertDialog alert = AlertDialog(
@@ -39,22 +39,24 @@ class _confirmForgetPasswordState extends State<confirmForgetPassword> {
     );
   }
 
-  void confirmForgetPassword(
-      String email, otp) async {
+  void passwordChange(String email, password, confirm_password) async {
     try {
       http.Response response = await http.post(
-          Uri.parse(AppConstants.BASE_URL + AppConstants.USER_SIGNUP),
+          Uri.parse(AppConstants.BASE_URL + AppConstants.USER_CHANGE_PASSWORD),
           body: {
             'email': email,
-            'otp': otp,
+            'password': password,
+            'confirm_password': confirm_password
           });
       Map<String, dynamic> map = jsonDecode(response.body.toString());
       message = (map["message"]);
       // ignore: unrelated_type_equality_checks
       if (response.statusCode == 200) {
         // ignore: use_build_context_synchronously
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const changePasswordPage()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const loginPage()));
       } else {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -134,9 +136,9 @@ class _confirmForgetPasswordState extends State<confirmForgetPassword> {
                 height: 30,
               ),
               const Padding(
-                padding: EdgeInsets.only(right: 260),
+                padding: EdgeInsets.only(right: 230),
                 child: Text(
-                  'OTP',
+                  'Password',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
               ),
@@ -155,12 +157,12 @@ class _confirmForgetPasswordState extends State<confirmForgetPassword> {
                     textAlign: TextAlign.center,
                     textInputAction: TextInputAction.next,
                     autofocus: false,
-                    controller: OTP,
+                    controller: Password,
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.fromLTRB(20, 5, 20, 15),
                       focusedBorder: OutlineInputBorder(),
                       border: OutlineInputBorder(),
-                      hintText: 'Enter your OTP',
+                      hintText: 'Enter your Password',
                       hintStyle: TextStyle(
                           fontSize: 13,
                           fontStyle: FontStyle.italic,
@@ -173,6 +175,42 @@ class _confirmForgetPasswordState extends State<confirmForgetPassword> {
               SizedBox(
                 height: 30,
               ),
+              const Padding(
+                padding: EdgeInsets.only(right: 160),
+                child: Text(
+                  'Confirm Password',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+              ),
+              // ignore: prefer_const_constructors
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30),
+                // ignore: sized_box_for_whitespace
+                child: Container(
+                  width: 350,
+                  height: 50,
+                  // ignore: prefer_const_constructors
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    textInputAction: TextInputAction.next,
+                    autofocus: false,
+                    controller: ConfirmPassword,
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(20, 5, 20, 15),
+                      focusedBorder: OutlineInputBorder(),
+                      border: OutlineInputBorder(),
+                      hintText: 'Enter your Confirm Password',
+                      hintStyle: TextStyle(
+                          fontSize: 13,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.grey),
+                    ),
+                  ),
+                ),
+              ),
               // ignore: prefer_const_constructors
 
               Padding(
@@ -180,10 +218,10 @@ class _confirmForgetPasswordState extends State<confirmForgetPassword> {
                     left: 30, right: 30, top: 30, bottom: 30),
                 child: ElevatedButton(
                   onPressed: () {
-                    showLoaderDialog(context);
-                    confirmForgetPassword(
+                    passwordChange(
                         Email.text.toString().trim(),
-                        OTP.text.toString().trim());
+                        Password.text.toString().trim(),
+                        ConfirmPassword.text.toString().trim());
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(237, 228, 139, 6),
