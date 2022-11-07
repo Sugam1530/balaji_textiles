@@ -144,125 +144,121 @@ class _singleItemPageState extends State<singleItemPage> {
                         child: const CircularProgressIndicator(),
                       );
                     } else {
-                      return Expanded(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: InkWell(
-                                  child: (Icon(
-                                    Icons.shopping_cart,
-                                    size: 35,
-                                  )),
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const myOrderPage(),
-                                      ),
-                                    );
-                                  },
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: InkWell(
+                                child: (Icon(
+                                  Icons.shopping_cart,
+                                  size: 35,
+                                )),
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => const myOrderPage(),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(10),
+                            child: Image.network(
+                              baseUrl + data["product_image"],
+                              fit: BoxFit.cover,
+                            ),
+                            height: 300,
+                            width: 400,
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(left: 30),
+                                child: Text(
+                                  data["product_name"],
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                      fontSize: 20),
                                 ),
                               ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(10),
-                              child: Image.network(
-                                baseUrl + data["product_image"],
-                                fit: BoxFit.cover,
+                              Container(
+                                margin: EdgeInsets.only(
+                                  right: 20,
+                                ),
+                                child: Text(
+                                  '₹ ${data["product_price"]}',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                      fontSize: 20),
+                                ),
                               ),
-                              height: 300,
-                              width: 400,
+                            ],
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              right: 130,
                             ),
-                            const SizedBox(
-                              height: 50,
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            child: Column(
+                              // ignore: prefer_const_literals_to_create_immutables
                               children: [
-                                Container(
-                                  margin: EdgeInsets.only(left: 30),
-                                  child: Text(
-                                    data["product_name"],
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        fontSize: 20),
-                                  ),
+                                const SizedBox(
+                                  height: 30,
                                 ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                    right: 20,
-                                  ),
-                                  child: Text(
-                                    '₹ ${data["product_price"]}',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        fontSize: 20),
-                                  ),
+                                Text(
+                                  'Available Product: ${data["product_alert"]}',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.redAccent,
+                                      fontSize: 18),
                                 ),
                               ],
                             ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                right: 130,
-                              ),
-                              child: Column(
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(
+                              right: 190,
+                            ),
+                            child: Column(
                                 // ignore: prefer_const_literals_to_create_immutables
                                 children: [
                                   const SizedBox(
                                     height: 30,
                                   ),
                                   Text(
-                                    'Available Product: ${data["product_alert"]}',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.redAccent,
-                                        fontSize: 18),
+                                    data["product_desc"].toString(),
+                                    style: TextStyle(fontSize: 16),
                                   ),
-                                ],
+                                ]),
+                          ),
+                          // ignore: prefer_const_constructors
+                          SizedBox(height: 30.0),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 108.0),
+                            child: SizedBox(
+                              height: 50,
+                              width: 230,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.orangeAccent),
+                                child: const Text('Add to cart'),
+                                onPressed: () {
+                                  addToCart(sugam, "1", data1["id"].toString());
+                                },
                               ),
                             ),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                right: 190,
-                              ),
-                              child: Column(
-                                  // ignore: prefer_const_literals_to_create_immutables
-                                  children: [
-                                    const SizedBox(
-                                      height: 30,
-                                    ),
-                                    Text(
-                                      data["product_desc"].toString(),
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  ]),
-                            ),
-                            // ignore: prefer_const_constructors
-                            SizedBox(height: 30.0),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 108.0),
-                              child: SizedBox(
-                                height: 50,
-                                width: 230,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.orangeAccent),
-                                  child: const Text('Add to cart'),
-                                  onPressed: () {
-                                    addToCart(
-                                        sugam, "1", data1["id"].toString());
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       );
                     }
                   },

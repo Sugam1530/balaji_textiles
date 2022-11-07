@@ -27,6 +27,19 @@ class _myOrderPageState extends State<myOrderPage> {
   List<int>? cartCount = [1];
   List<int>? idList = [1];
 
+  var currentDate = DateTime(
+          DateTime.fromMillisecondsSinceEpoch(
+                  DateTime.now().millisecondsSinceEpoch)
+              .year,
+          DateTime.fromMillisecondsSinceEpoch(
+                  DateTime.now().millisecondsSinceEpoch)
+              .month,
+          DateTime.fromMillisecondsSinceEpoch(
+                  DateTime.now().millisecondsSinceEpoch)
+              .day)
+      .toString()
+      .replaceAll(" 00:00:00.000", "").split('-').reversed.join('-');
+
   Future getProfileApi() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
@@ -550,7 +563,7 @@ class _myOrderPageState extends State<myOrderPage> {
                             data["id"].toString(),
                             idList.toString(),
                             cartCount.toString(),
-                            "04-11-2022");
+                            currentDate.toString());
                       },
                     );
                   }
